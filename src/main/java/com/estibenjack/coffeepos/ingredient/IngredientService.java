@@ -2,8 +2,7 @@ package com.estibenjack.coffeepos.ingredient;
 
 import org.springframework.stereotype.Service;
 
-//import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class IngredientService {
 
     // temp in-memory storage while doing learning
     // will replace w/ spring data jpa repository when persistence introduced
-    private final Map<Long, Ingredient> ingredients = new HashMap<>();
+    private final Map<Long, Ingredient> ingredients = new LinkedHashMap<>();
     private long nextId = 1L;
 
     public IngredientService() {
@@ -25,10 +24,6 @@ public class IngredientService {
         ingredients.put(nextId++, ingredient);
     }
 
-//    public Collection<Ingredient> getAllIngredients(){
-//        return ingredients.values();
-//    }
-
     public List<IngredientResponse> getAllIngredients() {
         return ingredients.entrySet()
                 .stream()
@@ -40,6 +35,7 @@ public class IngredientService {
                             ingredient.getUnit(),
                             ingredient.getStockQuantity()
                     );
-                }).toList();
+                })
+                .toList();
     }
 }
