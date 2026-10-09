@@ -1,4 +1,4 @@
-# Coffee POS System
+# Coffee Shop POS and Inventory Management System
 
 A Java and Spring Boot backend project for a coffee shop point-of-sale (POS) and inventory management system.
 
