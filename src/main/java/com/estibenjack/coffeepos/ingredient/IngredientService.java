@@ -56,6 +56,20 @@ public class IngredientService {
     }
 
     public IngredientResponse getSingleIngredient(Long id) {
+        Ingredient ingredient = findIngredientOrThrow(id);
+
+        return toResponse(id, ingredient);
+    }
+
+    public IngredientResponse replenishIngredient(Long id, StockAdjustmentRequest request) {
+        Ingredient ingredient = findIngredientOrThrow(id);
+
+        ingredient.replenishStock(request.quantity());
+
+        return toResponse(id, ingredient);
+    }
+
+    private Ingredient findIngredientOrThrow(Long id) {
         Ingredient ingredient = ingredients.get(id);
 
         if (ingredient == null) {
@@ -65,6 +79,10 @@ public class IngredientService {
             );
         }
 
+        return ingredient;
+    }
+
+    private IngredientResponse toResponse(Long id, Ingredient ingredient) {
         return new IngredientResponse(
                 id,
                 ingredient.getName(),

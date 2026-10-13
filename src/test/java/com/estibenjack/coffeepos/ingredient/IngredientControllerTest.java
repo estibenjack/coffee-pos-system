@@ -48,4 +48,44 @@ public class IngredientControllerTest {
                 .andExpect(jsonPath("$.unit").value("MILLILITRE"))
                 .andExpect(jsonPath("$.stockQuantity").value(0));
     }
+
+    @Test
+    void shouldReplenishIngredientStock() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/replenish")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 500
+                            }
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Coffee Beans"))
+                .andExpect(jsonPath("$.unit").value("GRAM"))
+                .andExpect(jsonPath("$.stockQuantity").isNumber());
+    }
+
+    @Test
+    void shouldReturn404WhenReplenishingNonexistentIngredient() throws Exception {
+        mockMvc.perform(post("/api/ingredients/999/replenish")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 500
+                            }
+                            """))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldRejectNegativeReplenishmentQuantity() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/replenish")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": -100
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
 }

@@ -30,4 +30,10 @@ public class IngredientController {
     public IngredientResponse createIngredient(@RequestBody IngredientRequest request) {
         return ingredientService.createIngredient(request);
     }
+
+    @PostMapping("/{id}/replenish")
+//    @ResponseStatus(HttpStatus.OK)  - can use swagger ui's default 200 ok response
+    public IngredientResponse replenishIngredient(@PathVariable Long id, @RequestBody StockAdjustmentRequest request){
+        return ingredientService.replenishIngredient(id, request);
+    }
 }
