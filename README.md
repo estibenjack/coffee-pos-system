@@ -17,6 +17,12 @@ Along the way, I'm looking to strengthen my understanding of REST APIs, applicat
 - Maven
 - JUnit 5
 
+## Design
+
+The initial ERD outlines the proposed data model for the application and will evolve as development progresses.
+
+![Coffee Shop POS ERD](docs/coffee_pos_erd.drawio.png)
+
 ## Progress
 
 Currently working on ingredient management, with a REST API and temporary in-memory storage.
