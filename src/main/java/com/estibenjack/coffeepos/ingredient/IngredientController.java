@@ -27,7 +27,7 @@ public class IngredientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createIngredient(@RequestBody IngredientRequest request) {
-        ingredientService.createIngredient(request);
+    public IngredientResponse createIngredient(@RequestBody IngredientRequest request) {
+        return ingredientService.createIngredient(request);
     }
 }

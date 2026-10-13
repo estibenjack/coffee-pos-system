@@ -26,9 +26,18 @@ public class IngredientService {
         ingredients.put(nextId++, ingredient);
     }
 
-    public void createIngredient(IngredientRequest request) {
+    public IngredientResponse createIngredient(IngredientRequest request) {
         Ingredient ingredient = new Ingredient(request.name(), request.unit());
+
+        long id = nextId;
         addIngredient(ingredient);
+
+        return new IngredientResponse(
+                id,
+                ingredient.getName(),
+                ingredient.getUnit(),
+                ingredient.getStockQuantity()
+        );
     }
 
     public List<IngredientResponse> getAllIngredients() {

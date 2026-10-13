@@ -38,10 +38,14 @@ public class IngredientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                 {
-                    "name": "Soy Milk",
+                    "name": "Almond Milk",
                     "unit": "MILLILITRE"
                 }
                 """))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Almond Milk"))
+                .andExpect(jsonPath("$.unit").value("MILLILITRE"))
+                .andExpect(jsonPath("$.stockQuantity").value(0));
     }
 }
