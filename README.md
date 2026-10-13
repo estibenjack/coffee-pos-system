@@ -16,12 +16,31 @@ Along the way, I'm looking to strengthen my understanding of REST APIs, applicat
 - Spring Boot
 - Maven
 - JUnit 5
+- Springdoc OpenAPI / Swagger UI
 
 ## Design
 
 The initial ERD outlines the proposed data model for the application and will evolve as development progresses.
 
 ![Coffee Shop POS ERD](docs/coffee_pos_erd.drawio.png)
+
+## API Documentation
+
+Interactive API documentation and testing are available through Swagger UI, using Springdoc OpenAPI.
+
+To explore the API, run the Spring Boot application locally and navigate to:
+
+http://localhost:8080/swagger-ui.html
+
+### Current Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/ingredients` | Retrieve all ingredients |
+| GET | `/api/ingredients/{id}` | Retrieve an ingredient by ID |
+| POST | `/api/ingredients` | Create a new ingredient |
+
+_Additional endpoints will be introduced as development progresses._
 
 ## Progress
 
