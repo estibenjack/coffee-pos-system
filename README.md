@@ -32,6 +32,8 @@ To explore the API, run the Spring Boot application locally and navigate to:
 
 http://localhost:8080/swagger-ui.html
 
+![Swagger UI API Documentation](docs/swagger-ui.png)
+
 ### Current Endpoints
 
 | Method | Endpoint | Description |
