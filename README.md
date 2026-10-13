@@ -39,11 +39,16 @@ http://localhost:8080/swagger-ui.html
 | GET | `/api/ingredients` | Retrieve all ingredients |
 | GET | `/api/ingredients/{id}` | Retrieve an ingredient by ID |
 | POST | `/api/ingredients` | Create a new ingredient |
+| POST | `/api/ingredients/{id}/replenish` | Replenish ingredient stock |
 
 _Additional endpoints will be introduced as development progresses._
 
 ## Progress
 
-Currently working on ingredient management, with a REST API and temporary in-memory storage.
+Currently implementing ingredient and inventory management using REST APIs and temporary in-memory storage.
 
-_Work in progress._
+Implemented functionality includes ingredient creation and retrieval, stock replenishment, input validation, global exception handling and automated tests.
+
+Planned next steps include stock consumption, PostgreSQL persistence and product and order management.
+
+*Work in progress.*
