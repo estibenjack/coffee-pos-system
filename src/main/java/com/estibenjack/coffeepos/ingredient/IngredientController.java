@@ -1,19 +1,13 @@
 package com.estibenjack.coffeepos.ingredient;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/ingredients")
 public class IngredientController {
-
-//    @GetMapping
-//    public List<String> getAllIngredients(){
-//        return List.of("Coffee Beans", "Oat Milk", "Sugar");
-//    }
 
     private final IngredientService ingredientService;
 
@@ -24,5 +18,16 @@ public class IngredientController {
     @GetMapping
     public List<IngredientResponse> getAllIngredients(){
         return ingredientService.getAllIngredients();
+    }
+
+    @GetMapping("/{id}")
+    public IngredientResponse getSingleIngredient(@PathVariable Long id){
+        return ingredientService.getSingleIngredient(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createIngredient(@RequestBody IngredientRequest request) {
+        ingredientService.createIngredient(request);
     }
 }

@@ -1,4 +1,7 @@
 package com.estibenjack.coffeepos.ingredient;
 
-public class IngredientRequest {
+public record IngredientRequest(
+        String name,
+        MeasurementUnit unit
+){
 }

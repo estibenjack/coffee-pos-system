@@ -1,6 +1,8 @@
 package com.estibenjack.coffeepos.ingredient;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +26,11 @@ public class IngredientService {
         ingredients.put(nextId++, ingredient);
     }
 
+    public void createIngredient(IngredientRequest request) {
+        Ingredient ingredient = new Ingredient(request.name(), request.unit());
+        addIngredient(ingredient);
+    }
+
     public List<IngredientResponse> getAllIngredients() {
         return ingredients.entrySet()
                 .stream()
@@ -37,5 +44,23 @@ public class IngredientService {
                     );
                 })
                 .toList();
+    }
+
+    public IngredientResponse getSingleIngredient(Long id) {
+        Ingredient ingredient = ingredients.get(id);
+
+        if (ingredient == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Ingredient not found: " + id
+            );
+        }
+
+        return new IngredientResponse(
+                id,
+                ingredient.getName(),
+                ingredient.getUnit(),
+                ingredient.getStockQuantity()
+        );
     }
 }
