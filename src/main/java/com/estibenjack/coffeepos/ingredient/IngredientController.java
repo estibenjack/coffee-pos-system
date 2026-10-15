@@ -1,5 +1,6 @@
 package com.estibenjack.coffeepos.ingredient;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,18 +28,18 @@ public class IngredientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public IngredientResponse createIngredient(@RequestBody IngredientRequest request) {
+    public IngredientResponse createIngredient(@Valid @RequestBody IngredientRequest request) {
         return ingredientService.createIngredient(request);
     }
 
     @PostMapping("/{id}/replenish")
 //    @ResponseStatus(HttpStatus.OK)  - can use swagger ui's default 200 ok response
-    public IngredientResponse replenishIngredient(@PathVariable Long id, @RequestBody StockAdjustmentRequest request){
+    public IngredientResponse replenishIngredient(@PathVariable Long id, @Valid @RequestBody StockAdjustmentRequest request){
         return ingredientService.replenishIngredient(id, request);
     }
 
     @PostMapping("/{id}/consume")
-    public IngredientResponse consumeIngredient(@PathVariable Long id, @RequestBody StockAdjustmentRequest request) {
+    public IngredientResponse consumeIngredient(@PathVariable Long id, @Valid @RequestBody StockAdjustmentRequest request) {
         return ingredientService.consumeIngredient(id, request);
     }
 }

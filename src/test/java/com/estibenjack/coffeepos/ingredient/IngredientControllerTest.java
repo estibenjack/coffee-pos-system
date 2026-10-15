@@ -169,4 +169,41 @@ public class IngredientControllerTest {
                             """))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldReturn400WhenIngredientNameIsBlank() throws Exception {
+        mockMvc.perform(post("/api/ingredients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "name": "     ",
+                                "unit": "GRAM",
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400WhenStockQuantityIsMissing() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/consume")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                            
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400WhenStockQuantityIsZero() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/replenish")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 0
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
 }

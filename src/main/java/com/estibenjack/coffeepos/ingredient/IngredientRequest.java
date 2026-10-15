@@ -1,7 +1,10 @@
 package com.estibenjack.coffeepos.ingredient;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record IngredientRequest(
-        String name,
-        MeasurementUnit unit
+        @NotBlank String name,
+        @NotNull MeasurementUnit unit
 ){
 }
