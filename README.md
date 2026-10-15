@@ -2,6 +2,25 @@
 
 A Java 21 and Spring Boot backend project for a coffee shop point-of-sale (POS) and inventory management system.
 
+## Table of Contents
+
+- [About](#about)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+  - [Design](#design)
+- [Current Features](#current-features)
+  - [Ingredient Management](#ingredient-management)
+  - [Validation & Error Handling](#validation--error-handling)
+  - [Database Persistence](#database-persistence)
+- [API Documentation](#api-documentation)
+  - [Current Endpoints](#current-endpoints)
+  - [Example: Create an Ingredient](#example-create-an-ingredient)
+  - [Example: Replenish Stock](#example-replenish-stock)
+  - [Example: Consume Stock](#example-consume-stock)
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [Development Progress](#development-progress)
+
 ## About
 
 I've previously covered some Spring Boot through online courses, but wanted to revisit the fundamentals and put what I've learned into practice through a project of my own, building on my existing Java and OOP experience.
