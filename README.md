@@ -42,6 +42,7 @@ http://localhost:8080/swagger-ui.html
 | GET | `/api/ingredients/{id}` | Retrieve an ingredient by ID |
 | POST | `/api/ingredients` | Create a new ingredient |
 | POST | `/api/ingredients/{id}/replenish` | Replenish ingredient stock |
+| POST | `/api/ingredients/{id}/consume` | Consume ingredient stock |
 
 _Additional endpoints will be introduced as development progresses._
 
