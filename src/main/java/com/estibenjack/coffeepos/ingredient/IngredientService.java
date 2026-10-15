@@ -69,6 +69,14 @@ public class IngredientService {
         return toResponse(id, ingredient);
     }
 
+    public IngredientResponse consumeIngredient(Long id, StockAdjustmentRequest request) {
+        Ingredient ingredient = findIngredientOrThrow(id);
+
+        ingredient.consumeStock(request.quantity());
+
+        return toResponse(id, ingredient);
+    }
+
     private Ingredient findIngredientOrThrow(Long id) {
         Ingredient ingredient = ingredients.get(id);
 

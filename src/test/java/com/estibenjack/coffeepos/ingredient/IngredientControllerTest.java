@@ -1,5 +1,6 @@
 package com.estibenjack.coffeepos.ingredient;
 
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,5 +88,85 @@ public class IngredientControllerTest {
                             }
                             """))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldConsumeIngredientStock() throws Exception {
+        // declare and initialise new stock
+        String response = mockMvc.perform(post("/api/ingredients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "name": "Test Coffee Beans",
+                                "unit": "GRAM"
+                            }
+                            """))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Number idNumber = JsonPath.read(response, "$.id");
+        long id = idNumber.longValue();
+
+        // replenish by 500
+        mockMvc.perform(post("/api/ingredients/{id}/replenish", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 500
+                            }
+                            """))
+                .andExpect(status().isOk());
+
+        // consume 200
+        mockMvc.perform(post("/api/ingredients/{id}/consume", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 200
+                            }
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value("Test Coffee Beans"))
+                .andExpect(jsonPath("$.unit").value("GRAM"))
+                .andExpect(jsonPath("$.stockQuantity").value(300));
+    }
+
+    @Test
+    void shouldReturn400WhenConsumingInsufficientStock() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/consume")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": -1000
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400WhenConsumingNegativeQuantity() throws Exception {
+        mockMvc.perform(post("/api/ingredients/1/consume")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": -100
+                            }
+                            """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn404WhenConsumingNonexistentIngredient() throws Exception {
+        mockMvc.perform(post("/api/ingredients/999/consume")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "quantity": 100
+                            }
+                            """))
+                .andExpect(status().isNotFound());
     }
 }

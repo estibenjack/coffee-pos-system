@@ -36,4 +36,9 @@ public class IngredientController {
     public IngredientResponse replenishIngredient(@PathVariable Long id, @RequestBody StockAdjustmentRequest request){
         return ingredientService.replenishIngredient(id, request);
     }
+
+    @PostMapping("/{id}/consume")
+    public IngredientResponse consumeIngredient(@PathVariable Long id, @RequestBody StockAdjustmentRequest request) {
+        return ingredientService.consumeIngredient(id, request);
+    }
 }
