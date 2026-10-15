@@ -4,95 +4,67 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class IngredientService {
 
-    // temp in-memory storage while doing learning
-    // will replace w/ spring data jpa repository when persistence introduced
-    private final Map<Long, Ingredient> ingredients = new LinkedHashMap<>();
-    private long nextId = 1L;
+    private final IngredientRepository ingredientRepository;
 
-    public IngredientService() {
-        addIngredient(new Ingredient("Coffee Beans", MeasurementUnit.GRAM));
-        addIngredient(new Ingredient("Oat Milk", MeasurementUnit.MILLILITRE));
-        addIngredient(new Ingredient("Sugar", MeasurementUnit.GRAM));
-    }
-
-    private void addIngredient(Ingredient ingredient){
-        ingredients.put(nextId++, ingredient);
+    public IngredientService(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
     }
 
     public IngredientResponse createIngredient(IngredientRequest request) {
         Ingredient ingredient = new Ingredient(request.name(), request.unit());
 
-        long id = nextId;
-        addIngredient(ingredient);
+        Ingredient savedIngredient = ingredientRepository.save(ingredient);
 
-        return new IngredientResponse(
-                id,
-                ingredient.getName(),
-                ingredient.getUnit(),
-                ingredient.getStockQuantity()
-        );
+        return toResponse(savedIngredient);
     }
 
     public List<IngredientResponse> getAllIngredients() {
-        return ingredients.entrySet()
+        return ingredientRepository.findAll()
                 .stream()
-                .map(entry -> {
-                    Ingredient ingredient = entry.getValue();
-                    return new IngredientResponse(
-                            entry.getKey(),
-                            ingredient.getName(),
-                            ingredient.getUnit(),
-                            ingredient.getStockQuantity()
-                    );
-                })
+                .map(ingredient -> toResponse(ingredient))
                 .toList();
     }
 
     public IngredientResponse getSingleIngredient(Long id) {
         Ingredient ingredient = findIngredientOrThrow(id);
 
-        return toResponse(id, ingredient);
+        return toResponse(ingredient);
     }
 
     public IngredientResponse replenishIngredient(Long id, StockAdjustmentRequest request) {
         Ingredient ingredient = findIngredientOrThrow(id);
 
         ingredient.replenishStock(request.quantity());
+        Ingredient savedIngredient = ingredientRepository.save(ingredient);
 
-        return toResponse(id, ingredient);
+        return toResponse(savedIngredient);
     }
 
     public IngredientResponse consumeIngredient(Long id, StockAdjustmentRequest request) {
         Ingredient ingredient = findIngredientOrThrow(id);
 
         ingredient.consumeStock(request.quantity());
+        Ingredient savedIngredient = ingredientRepository.save(ingredient);
 
-        return toResponse(id, ingredient);
+        return toResponse(savedIngredient);
     }
 
     private Ingredient findIngredientOrThrow(Long id) {
-        Ingredient ingredient = ingredients.get(id);
-
-        if (ingredient == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Ingredient not found: " + id
-            );
-        }
-
-        return ingredient;
+        return ingredientRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Ingredient not found: " + id
+                ));
     }
 
-    private IngredientResponse toResponse(Long id, Ingredient ingredient) {
+    private IngredientResponse toResponse(Ingredient ingredient) {
         return new IngredientResponse(
-                id,
+                ingredient.getId(),
                 ingredient.getName(),
                 ingredient.getUnit(),
                 ingredient.getStockQuantity()

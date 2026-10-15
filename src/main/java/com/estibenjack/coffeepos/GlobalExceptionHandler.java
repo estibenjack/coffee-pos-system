@@ -13,4 +13,10 @@ public class GlobalExceptionHandler {
     public String handleIllegalArgumentException(IllegalArgumentException exception) {
         return exception.getMessage();
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleIllegalStateException(IllegalStateException exception) {
+        return exception.getMessage();
+    }
 }
