@@ -15,7 +15,8 @@ Along the way, I'm looking to strengthen my understanding of REST APIs, applicat
 - Java 21
 - Spring Boot
 - Maven
-- JUnit 5
+- Jakarta Bean Validation
+- JUnit 5 / MockMvc
 - Springdoc OpenAPI / Swagger UI
 
 ## Design
@@ -48,10 +49,10 @@ _Additional endpoints will be introduced as development progresses._
 
 ## Progress
 
-Currently implementing ingredient and inventory management using REST APIs and temporary in-memory storage.
+The initial ingredient management functionality is complete, using REST APIs and temporary in-memory storage.
 
-Implemented functionality includes ingredient creation and retrieval, stock replenishment, input validation, global exception handling and automated tests.
+Implemented features include ingredient creation and retrieval, stock replenishment and consumption, business rule enforcement, request validation, centralised exception handling and automated testing.
 
-Planned next steps include stock consumption, PostgreSQL persistence and product and order management.
+Next steps include introducing PostgreSQL persistence with Spring Data JPA, followed by product, recipe and order management.
 
 *Work in progress.*
